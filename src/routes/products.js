@@ -17,12 +17,12 @@ const productsController = require('../controllers/productsController');
 //router.???('/:id/', productsController.detail); 
 
 /*** EDIT ONE PRODUCT ***/ 
-//router.???('/:id/???', productsController.edit); 
-//router.???('/:id', productsController.update); 
+//router.???('/:id/??? ', productsController.edit); 
+//router.???('/:id/', productsController.update); 
 
 
 /*** DELETE ONE PRODUCT***/ 
-//router.???('/:id', productsController.destroy); 
+//router.???('/:id/', productsController.destroy); 
 
 
-module.exports = router;
+module.exports = router;0
