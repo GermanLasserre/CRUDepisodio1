@@ -18,6 +18,7 @@ const controller = {
 			toThousand
 		})
 	},
+
 	search: (req, res) => {
 		// Do the magic
 	},

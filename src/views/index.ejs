@@ -19,7 +19,7 @@
 						<h2 class="products-title">Basado en tu última visita</h2>
 					</div>
 					<!-- Show the "visited" products -->
-					<% productsVisited.forEach(product=> { %>
+					<% productsVisited.forEach((product) => { %>
 						<div class="col-12 col-sm-6 col-lg-3">
 							<section class="product-box">
 								<a href="/products/detail/<%- product.id %>">
@@ -27,10 +27,12 @@
 										<img src="/images/products/<%- product.image %>" alt="imagen de producto">
 									</figure>
 									<article class="product-box_data">
-										<h2><%- toThousand(product.price) %></h2>
-										<span><%- product.discount %>% OFF</span>
-										<p><%- product.name %></p>
-										<i class="fas fa-truck"></i>
+										<h2>$<%- toThousand(product.price - (product.price * product.discount / 100)) %></h2>
+										<% if (product.discount> 0) { %>
+											<span><%- product.discount %>% OFF</span>
+											<% } %>
+												<p><%- product.name %></p>
+												<i class="fas fa-truck"></i>
 									</article>
 								</a>
 							</section>
@@ -47,7 +49,7 @@
 						<h2 class="products-title">Ofertas</h2>
 					</div>
 					<!-- Show the "in-sale" products -->
-					<% productsInSale.forEach(product=> { %>
+					<% productsInSale.forEach((product) => { %>
 						<div class="col-12 col-sm-6 col-lg-3">
 							<section class="product-box">
 								<a href="/products/detail/<%- product.id %>">
@@ -55,15 +57,17 @@
 										<img src="/images/products/<%- product.image %>" alt="imagen de producto">
 									</figure>
 									<article class="product-box_data">
-										<h2><%- toThousand(product.price) %></h2>
-										<span><%- product.discount %>% OFF</span>
-										<p><%- product.name %></p>
-										<i class="fas fa-truck"></i>
+										<h2>$<%- toThousand(product.price - (product.price * product.discount / 100)) %></h2>
+										<% if (product.discount> 0) { %>
+											<span><%- product.discount %>% OFF</span>
+											<% } %>
+												<p><%- product.name %></p>
+												<i class="fas fa-truck"></i>
 									</article>
 								</a>
 							</section>
 						</div>
-					<% }) %>
+						<% }) %>
 				</div>
 			</div>
 			<!-- /Ofertas -->
