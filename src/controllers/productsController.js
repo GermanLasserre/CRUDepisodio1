@@ -19,8 +19,9 @@ const controller = {
 	detail: (req, res) => {
 		let productId = Number(req.params.id);
 
-		let product = products.find(product => product.id === productId);
-
+		let product = products.find(product => {
+			return product.id == productId;
+		})
 		res.render("detail", {
 			product,
 			toThousand
@@ -46,11 +47,12 @@ const controller = {
 			description: req.body.description,
 			image: "/default-image.png",
 		}
+
 		products.push(newProduct);
 
 		writeJson(products);
 
-		res.redirect("/products");
+		res.redirect("/products/");
 	},
 
 	// Update - Form to edit
@@ -89,10 +91,10 @@ const controller = {
 		let productId = Number(req.params.id);
 
 		// busco el producto a eliminar y lo borro del array
-		products.forEach( product => {
-			if(product.id === productId){
-				let productToDelete = products.indexOf(product);
-				products.splice(productToDelete, 1)
+		products.forEach(product => {
+			if (product.id === productId) {
+				let productToDestroy = products.indexOf(product);
+				products.splice(productToDestroy, 1)
 			}
 		})
 		// sobreescribo el json con el array de productos modificado
@@ -100,7 +102,7 @@ const controller = {
 
 		// retorno un mensaje de exito
 		res.send("Producto eliminado con exito")
-}
+	}
 };
 
 module.exports = controller;
