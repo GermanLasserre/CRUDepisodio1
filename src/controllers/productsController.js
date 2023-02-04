@@ -4,7 +4,7 @@ const path = require('path');
 const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 const writeJson = (products) => {
-	fs.writeFileSync(productsFilePath, JSON.stringify(products), {encoding: "utf-8"})
+	fs.writeFileSync(productsFilePath, JSON.stringify(products), { encoding: "utf-8" })
 }
 
 const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -12,7 +12,7 @@ const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 const controller = {
 	// Root - Show all products
 	index: (req, res) => {
-		res.render("products", {products, toThousand})
+		res.render("products", { products, toThousand })
 	},
 
 	// Detail - Detail from one product
@@ -50,22 +50,57 @@ const controller = {
 
 		writeJson(products);
 
-		res.redirect("/products")
+		res.redirect("/products");
 	},
 
 	// Update - Form to edit
 	edit: (req, res) => {
-		// Do the magic
+		let productId = Number(req.params.id);
+
+		let productToEdit = products.find(product => product.id === productId);
+
+		res.render("product-edit-form", {
+			productToEdit,
+		})
 	},
+
 	// Update - Method to update
 	update: (req, res) => {
-		// Do the magic
+		let productId = Number(req.params.id);
+
+		products.forEach(product => {
+			if (product.id === productId) {
+				product.name = req.body.name;
+				product.price = req.body.price;
+				product.discount = req.body.discount;
+				product.category = req.body.category;
+				product.description = req.body.description;
+			}
+		});
+		writeJson(products);
+
+		res.send("Producto editado con exito");
 	},
 
 	// Delete - Delete one product from DB
 	destroy: (req, res) => {
-		// Do the magic
-	}
+
+		// obtengo el id del req.param
+		let productId = Number(req.params.id);
+
+		// busco el producto a eliminar y lo borro del array
+		products.forEach( product => {
+			if(product.id === productId){
+				let productToDelete = products.indexOf(product);
+				products.splice(productToDelete, 1)
+			}
+		})
+		// sobreescribo el json con el array de productos modificado
+		writeJson(products)
+
+		// retorno un mensaje de exito
+		res.send("Producto eliminado con exito")
+}
 };
 
 module.exports = controller;
