@@ -20,7 +20,14 @@ const controller = {
 	},
 
 	search: (req, res) => {
-		// Do the magic
+		const {keywords} = req.query;
+		const results = products.filter(product => product.name == keywords)
+		
+		res.render("results", {
+			keywords,
+			results,
+			toThousand
+		})
 	},
 };
 

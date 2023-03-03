@@ -409,6 +409,16 @@ textarea.form-input {
 
 
 
+
+/* boton para cargar imagenes*/
+.btnEditImage {
+  width: 40vw;
+  margin-left: 1rem;
+}
+
+
+
+
 /*====== Media-Queries ======*/
 @media (min-width: 768px) {
   .main-header_credit-link {

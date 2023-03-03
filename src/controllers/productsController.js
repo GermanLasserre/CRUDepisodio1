@@ -36,7 +36,7 @@ const controller = {
 	// Create -  Method to store
 	store: (req, res) => {
 
-		let lastId = products[products.length - 1].id;
+		/*let lastId = products[products.length - 1].id;
 
 		let newProduct = {
 			id: lastId + 1,
@@ -46,12 +46,17 @@ const controller = {
 			category: req.body.category,
 			description: req.body.description,
 			image: "/default-image.png",
+		} */
+
+		const id = Math.max(...products.map(el => el.id))
+		const newProduct = {
+			id : id + 1,
+			...req.body,
+			image : "/default-image.png"
 		}
 
 		products.push(newProduct);
-
 		writeJson(products);
-
 		res.redirect("/products/");
 	},
 
@@ -82,6 +87,8 @@ const controller = {
 		writeJson(products);
 
 		res.send("Producto editado con exito");
+
+		
 	},
 
 	// Delete - Delete one product from DB
