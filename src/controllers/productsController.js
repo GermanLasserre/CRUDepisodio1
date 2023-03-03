@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
+
 const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 const writeJson = (products) => {
@@ -52,7 +53,7 @@ const controller = {
 		const newProduct = {
 			id : id + 1,
 			...req.body,
-			image : "/default-image.png"
+			image : req.file ? req.file.filename : "default-image.png",
 		}
 
 		products.push(newProduct);
@@ -73,8 +74,9 @@ const controller = {
 
 	// Update - Method to update
 	update: (req, res) => {
-		let productId = Number(req.params.id);
-
+		
+		/* let productId = Number(req.params.id);
+		
 		products.forEach(product => {
 			if (product.id === productId) {
 				product.name = req.body.name;
@@ -82,13 +84,36 @@ const controller = {
 				product.discount = req.body.discount;
 				product.category = req.body.category;
 				product.description = req.body.description;
+				product.image = req.file ? req.file.filename : "default-image.png";
 			}
 		});
 		writeJson(products);
 
-		res.send("Producto editado con exito");
+		res.send("Producto editado con exito"); */
 
-		
+		const { id } = req.params
+		const { name, price, discount, category, description } = req.body;
+		let editProduct = products.find(product => product.id === +id)
+		if (req.file){
+			if (fs.existsSync(path.join(__dirname, "../../public/images/products", editProduct.image)) && editProduct.image != "default-image.png")
+			{
+				fs.unlinkSync(path.join(__dirname, "../../public/images/products", editProduct.image)) 
+			}
+		}
+
+		products.forEach(product => {
+			if (product.id === +id) {
+				product.name = name,
+				product.price = price,
+				product.discount = discount,
+				product.category = category,
+				product.description = description,
+				product.image = req.file?.filename ?? product.image
+			}
+		})
+
+		writeJson(products)
+		res.redirect("/products/");	
 	},
 
 	// Delete - Delete one product from DB
